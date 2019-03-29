@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 var bluebird = require('bluebird')
 var mongoose = require('mongoose')
 mongoose.Promise = bluebird
-mongoose.connect('mongodb://127.0.0.1:27017/MasterDB')
+mongoose.connect('mongodb://anirudhDemo:mumbai123@127.0.0.1:27017/MasterDB')
 .then(()=> { console.log(`Succesfully Connected to the
 Mongodb Database  at URL : mongodb://127.0.0.1:27017/MasterDB`)})
 .catch(()=> { console.log(`Error Connecting to the Mongodb 

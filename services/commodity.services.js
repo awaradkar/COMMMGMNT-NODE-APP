@@ -33,6 +33,23 @@ exports.getCommodities = async function(query, page, limit){
     }
 }
 
+exports.getCommodity = async function(id){
+
+    //  Check for id   
+    console.log("Inside getCommodity for id:"+id);
+    try{
+        var commodity = await Commodity.findOne({_commId:id});
+        console.log(commodity);
+        
+        if(commodity == null){
+            throw Error("Commodity not found")
+        }
+        return user;
+    }catch(e){
+        throw Error("Error Occured while Fetching the Commodity")
+    }
+}
+
 exports.createCommodity= async function(commodity){
     
     // Creating a new Mongoose Object by using the new keyword

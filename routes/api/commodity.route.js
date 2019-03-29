@@ -12,6 +12,8 @@ var CommodityController = require('../../controllers/commodity.controller');
 
 router.get('/', CommodityController.getCommodities)
 
+router.get('/:id', CommodityController.getCommodity)
+
 router.post('/', CommodityController.createCommodity)
 
 router.put('/', CommodityController.updateCommodity)
