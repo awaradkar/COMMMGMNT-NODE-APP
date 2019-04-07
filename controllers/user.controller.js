@@ -81,16 +81,7 @@ exports.updateUser = async function (req, res, next) {
         return res.status(400).json({ status: 400., message: "Id must be present" })
     }
 
-    var id = req.body._id;
-
-    console.log(req.body)
-
-    var user = {
-        id,
-        _userName: req.body._userName ? req.body._userName : null,
-        _userPassword: req.body._userPassword ? req.body._userPassword : null,
-        _modifiedBy: req.body._modifiedBy ? req.body._modifiedBy : null
-    }
+    var user = req.body;
 
     try {
         var updatedUser = await UserService.updateUser(user);

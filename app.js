@@ -6,6 +6,8 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var jwt = require('./helpers/jwt');
+var errorHandler = require('./helpers/error-handler');
 
 // Get the API route ...
 
@@ -37,9 +39,13 @@ Database at URL : mongodb://127.0.0.1:27017/MasterDB`)})
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+// use JWT auth to secure the api
+//app.use(jwt());
 //Use the API routes for all routes matching /api
-
 app.use('/api', api);
+
+// global error handler
+app.use(errorHandler);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -11,7 +11,9 @@ var userSchema = new mongoose.Schema({
   _createdDate: Date,
   _modifiedDate: Date,
   _createdBy: String,
-  _modifiedBy: String
+  _modifiedBy: String,
+  _token: String,
+  _tokenDate:String
 });
 
 userSchema.plugin(mongoosePaginate)

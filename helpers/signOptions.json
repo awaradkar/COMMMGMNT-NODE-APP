@@ -1,0 +1,7 @@
+{
+    "issuer": "Anirudh Waradkar",
+    "subject": "D17129391",
+    "audience": "www.tudunlin.ie",
+    "expiresIn": "1h",
+    "algorithm": "RS384"
+}
