@@ -72,11 +72,11 @@ exports.createOrganization = async function (organization) {
 
     try {
 
-        // Saving the Commodity 
+        // Saving the Organization 
 
         var savedOrganization = await newOrganization.save();
 
-        return newOrganization;
+        return savedOrganization;
     } catch (e) {
 
         // return a Error message describing the reason     
@@ -86,7 +86,7 @@ exports.createOrganization = async function (organization) {
 }
 
 exports.updateOrg = async function (organization) {
-    var id = organization.id
+    var id = organization._id
     console.log(id);
     try {
         //Find the old Commodity Object by the Id

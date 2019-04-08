@@ -70,7 +70,7 @@ exports.updateOrg = async function (req, res, next) {
     }
 
     var organization = req.body;
-
+    console.log(organization);
     try {
         var updatedOrg = await OrganizationService.updateOrg(organization)
         return res.status(200).json({ status: 200, data: updatedOrg, message: "Succesfully Updated Organization" })

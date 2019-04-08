@@ -5,13 +5,16 @@ var commodities = require('./api/commodity.route');
 var users = require('./api/user.route');
 var organizations = require('./api/organization.route');
 var authenticate = require('./api/authentication.route');
+var packs = require('./api/pack.route');
+var commPacks = require('./api/commPack.route');
 
 //console.log("Inside api route:"+commodities);
 router.use('/authenticate', authenticate);
 router.use(require('../helpers/jwt'));
 router.use('/commodities', commodities);
 router.use('/users', users);
-router.use('/organization', organizations);
-
+router.use('/organizations', organizations);
+router.use('/packs', packs);
+router.use('/commPacks', commPacks);
 
 module.exports = router;

@@ -163,7 +163,7 @@ exports.authenticate = async function (username, password) {
                 var privateKey = fs.readFileSync('/keys/private.key', 'utf8');
                 console.log(privateKey);
                 var token = jwt.sign({
-                exp: Math.floor(Date.now() / 1000) + (60 * 60),
+                exp: Math.floor(Date.now() / 1000) + (2 * 60 * 60),
                 data: JSON.stringify(user)
                 }, privateKey, signOptions);
                 console.log(token);
