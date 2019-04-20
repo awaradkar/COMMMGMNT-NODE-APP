@@ -19,7 +19,9 @@ exports.getOrganizations = async function (query, page, limit) {
     // Try Catch the awaited promise to handle the error 
 
     try {
-        var organizations = await Organization.paginate(query, options)
+        obj = await queryObject(query);
+        console.log(obj);
+        var organizations = await Organization.paginate(obj, options)
 
         // Return the organizations list that was retured by the mongoose promise
 
@@ -144,4 +146,80 @@ exports.deleteOrg = async function (id) {
     } catch (e) {
         throw Error("Error Occured while Deleting the Organization")
     }
+}
+
+exports.getOrgNmAutoComplete = async function (query, limit) {
+
+    // Options setup for the mongoose paginate      
+    console.log("Inside getOrgNmAutoComplete:" + JSON.stringify(query));
+    var organization = [];
+    try {
+        
+        if (query._orgName != null) {
+            var str = "(?i)"+query._orgName;
+            organization = await Organization.find({_orgName:{ $regex: str }},{ _orgId: 1, _orgName: 1, _id: 0 }).sort({_orgName:1}).limit(limit);
+        }
+        
+        
+        // Return the commodity list that was retured by the mongoose promise
+
+        return organization;
+
+    } catch (e) {
+
+        // return a Error message describing the reason 
+        console.log(e);
+        throw Error('Error while Fetching Organization for AutoComplete')
+    }
+}
+
+exports.getOrgCityAutoComplete = async function (query, limit) {
+
+    // Options setup for the mongoose paginate      
+    console.log("Inside getOrgCityAutoComplete:" + JSON.stringify(query));
+    var organizationCity = [];
+    try {
+        
+        if (query._orgCity != null) {
+            var str = "(?i)"+query._orgCity;
+            organizationCity = await Organization.distinct("_orgCity",{_orgCity:{ $regex: str }});
+        }
+        
+        
+        return organizationCity;
+
+    } catch (e) {
+
+        // return a Error message describing the reason 
+        console.log(e);
+        throw Error('Error while Fetching Organization Cities for AutoComplete')
+    }
+}
+
+function queryObject(query){
+    var obj = null;
+    if (query._orgType != null ||query._orgCity != null || query._orgId != null || query._orgName != null || query.startDate != null || query.endDate != null) {
+        obj = {};
+    };
+    if (query._orgId != null) {
+        obj._orgId = query._orgId;
+    }
+    if (query._orgName != null) {
+        var str = "(?i)"+query._orgName;
+        obj._orgName = { $regex: str } ;
+    }
+    if (query._orgType != null) {
+        obj._orgType = query._orgType ;
+    }
+    if (query._orgCity != null) {
+        var str = "(?i)"+query._orgCity;
+        obj._orgCity = { $regex: str } ;
+    }
+    if (query.startDate != null) {
+        obj._createdDate = { $gte: new Date(query.startDate) };
+    }
+    if (query.endDate != null) {
+        obj._createdDate = { $lte: new Date(query.endDate) };
+    }
+    return obj;
 }

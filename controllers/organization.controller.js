@@ -16,7 +16,7 @@ exports.getOrganizations = async function (req, res, next) {
 
     try {
 
-        var organizations = await OrganizationService.getOrganizations({}, page, limit)
+        var organizations = await OrganizationService.getOrganizations(req.query, page, limit)
 
         // Return the Commodity list with the appropriate HTTP Status Code and Message.
 

@@ -136,7 +136,6 @@ exports.getPackDetails = async function (packs) {
     var packDetails = [];
 
     for (const item of packs) {
-        console.log("Andar toh aa gaya");
         var packObj = await PackService.getPack(item);
         packDetails.push(packObj)
     }

@@ -12,13 +12,13 @@ _this = this
 exports.getCommodities = async function (req, res, next) {
 
     // Check the existence of the query parameters, If the exists doesn't exists assign a default value
-    console.log("Inside commodity controller getCommodities:" + req);
+    console.log("Inside packs controller getCommodities:" + req);
     var page = req.query.page ? req.query.page : 1
     var limit = req.query.limit ? req.query.limit : 10;
-
+    
     try {
 
-        var commodities = await CommodityService.getCommodities({}, page, limit)
+        var commodities = await CommodityService.getCommodities(req.query, page, limit)
 
         // Return the Commodity list with the appropriate HTTP Status Code and Message.
 
