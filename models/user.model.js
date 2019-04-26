@@ -8,6 +8,8 @@ var userSchema = new mongoose.Schema({
   _userRole: Number,
   _userOrg: String,
   _userPassword: String,
+  _isFirstLogin: Boolean,
+  _isActive:Boolean,
   _createdDate: Date,
   _modifiedDate: Date,
   _createdBy: String,

@@ -58,6 +58,24 @@ exports.getUser = async function (id) {
         }
     }
 
+    exports.getByUserName = async function (id) {
+
+        //  Check for id   
+        console.log("Inside getByUserName for userName:" + id);
+        try {
+            var user = await User.findOne({ _userName: id });
+            console.log(user);
+
+            if (user == null) {
+                throw Error("User not found")
+            }
+            return user;
+        } catch (e) {
+            console.log(e);
+            throw Error("Error Occured while Fetching the User")
+        }
+    }
+
 exports.createUser = async function (user) {
 
         // Creating a new Mongoose Object by using the new keyword
@@ -68,6 +86,8 @@ exports.createUser = async function (user) {
             _userRole: user._userRole,
             _userPassword: user._userPassword,
             _userOrg: user._userOrg,
+            _isFirstLogin: true,
+            _isActive:true,
             _createdDate: new Date(),
             _modifiedDate: "",
             _createdBy: user._createdBy,
@@ -139,13 +159,16 @@ exports.deleteUser = async function (id) {
         console.log(id);
 
         try {
-            var deleted = await User.deleteOne({ _id: id })
-            console.log(deleted);
+            var user = await User.findOne({ _id: id })
+            console.log(user);
 
-            if (deleted.deletedCount == 0) {
+            user._isActive = false;
+            var deletedUser = user.save();
+
+            if (deletedUser == null) {
                 throw Error("user Could not be deleted")
             }
-            return deleted
+            return deletedUser
         } catch (e) {
             throw Error("Error Occured while Deleting the user")
         }

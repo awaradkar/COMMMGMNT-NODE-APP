@@ -47,7 +47,27 @@ exports.getCommPack = async function (id) {
         if (commPack == null) {
             throw Error("CommPack not found")
         }
-       
+
+        return commPack;
+    } catch (e) {
+        throw Error("Error Occured while Fetching the CommPack")
+    }
+}
+
+exports.getPackMap = async function (id) {
+
+    //  Check for id   
+    console.log("Inside getCommPack for id:" + id);
+    var packDetails = new Array();
+    var arr = [];arr.push(id);
+    try {
+        var commPack = await CommPack.find({ _packs: { $all: arr } });
+        console.log(commPack);
+
+        if (commPack == null) {
+            throw Error("CommPack not found")
+        }
+
         return commPack;
     } catch (e) {
         throw Error("Error Occured while Fetching the CommPack")
@@ -139,6 +159,6 @@ exports.getPackDetails = async function (packs) {
         var packObj = await PackService.getPack(item);
         packDetails.push(packObj)
     }
-    console.log("packDtls:"+packDetails);
+    console.log("packDtls:" + packDetails);
     return packDetails;
 }

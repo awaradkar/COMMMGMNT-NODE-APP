@@ -20,6 +20,8 @@ router.put('/', CommPackController.updateCommPack)
 
 router.delete('/:id',CommPackController.removeCommPack)
 
+router.get('/commMap/:id',CommPackController.chkForCommMap)
+
 //console.log("Inside Commodity Pack route:"+router);
 // Export the Router
 

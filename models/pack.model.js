@@ -3,7 +3,7 @@ var mongoosePaginate = require('mongoose-paginate')
 
 // define model =================
 var packSchema = new mongoose.Schema({
-  _packType: String,
+  _packType: String,//considering this as id now
   _packDescription:String,
   _packDeduction:Number,
   _createdDate: Date,

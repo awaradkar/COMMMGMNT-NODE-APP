@@ -1,6 +1,8 @@
 // Gettign the Newly created Mongoose Model we just created 
 
 var Commodity = require("../models/commodity.model");
+var IdGeneratorService = require("../services/idGenerator.service");
+
 // Saving the context of this module inside the _the variable
 _this = this
 
@@ -44,8 +46,9 @@ exports.getCommodity = async function (id) {
         if (commodity == null) {
             throw Error("Commodity not found")
         }
-        return user;
+        return commodity;
     } catch (e) {
+        console.log(e);
         throw Error("Error Occured while Fetching the Commodity")
     }
 }
@@ -53,9 +56,9 @@ exports.getCommodity = async function (id) {
 exports.createCommodity = async function (commodity) {
 
     // Creating a new Mongoose Object by using the new keyword
-
+    var commodityId = await IdGeneratorService.getId("COMM");
     var newCommodity = new Commodity({
-        _commId: commodity._commId,
+        _commId: commodityId,
         _commName: commodity._commName,
         _description: commodity._description,
         _createdDate: new Date(),
@@ -146,9 +149,10 @@ exports.getCommAutoComplete = async function (query, limit) {
     var commodities = [];
     try {
         
-        if (query._commName != null) {
-            var str = "(?i)"+query._commName;
-            commodities = await Commodity.find({_commName:{ $regex: str }},{ _commId: 1, _commName: 1, _id: 0 }).sort({_commName:1}).limit(limit);
+        if (query._comm != null) {
+            var str = "(?i)"+query._comm;
+            commodities = await Commodity.find(
+                {$or:[{_commName:{ $regex: str }},{_commId:{ $regex: str }}]},{ _commId: 1, _commName: 1, _id: 0 }).sort({_commName:1}).limit(limit);
         }
         
         

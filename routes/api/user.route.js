@@ -20,6 +20,7 @@ router.put('/', UserController.updateUser)
 
 router.delete('/:id',UserController.removeUser)
 
+router.get('/userName/:id', UserController.getByUserName)
 //console.log("Inside Commodities route:"+router);
 // Export the Router
 

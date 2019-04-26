@@ -8,6 +8,7 @@ var authenticate = require('./api/authentication.route');
 var packs = require('./api/pack.route');
 var commPacks = require('./api/commPack.route');
 var autoComplete = require('./api/autocomplete.route');
+var wareCommMap = require('./api/wareCommMap.route');
 
 //console.log("Inside api route:"+commodities);
 router.use('/authenticate', authenticate);
@@ -18,5 +19,6 @@ router.use('/organizations', organizations);
 router.use('/packs', packs);
 router.use('/commPacks', commPacks);
 router.use('/autoComplete', autoComplete);
+router.use('/wareCommMap', wareCommMap);
 
 module.exports = router;

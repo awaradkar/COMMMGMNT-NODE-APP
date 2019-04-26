@@ -1,6 +1,8 @@
 // Gettign the Newly created Mongoose Model we just created 
 
 var Organization = require("../models/organization.model");
+var IdGeneratorService = require("../services/idGenerator.service");
+
 // Saving the context of this module inside the _the variable
 _this = this
 
@@ -30,7 +32,7 @@ exports.getOrganizations = async function (query, page, limit) {
     } catch (e) {
 
         // return a Error message describing the reason 
-
+        
         throw Error('Error while Paginating organizations')
     }
 }
@@ -55,9 +57,9 @@ exports.getOrganization = async function (id) {
 exports.createOrganization = async function (organization) {
 
     // Creating a new Mongoose Object by using the new keyword
-
+    let idOrg = await IdGeneratorService.getId("ORG");
     var newOrganization = new Organization({
-        _orgId: organization._orgId,
+        _orgId: idOrg,
         _orgName: organization._orgName,
         _orgType: organization._orgType,
         _orgAddress: organization._orgAddress,
@@ -82,7 +84,7 @@ exports.createOrganization = async function (organization) {
     } catch (e) {
 
         // return a Error message describing the reason     
-
+        console.log(e);
         throw Error("Error while Creating Organization")
     }
 }
