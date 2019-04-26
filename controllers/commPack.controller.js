@@ -46,6 +46,20 @@ exports.getCommPack = async function (req, res, next) {
     }
 }
 
+exports.chkForCommMap = async function (req, res, next) {
+
+    var pack = req.params.id;
+    console.log(".....Pack for chk......."+pack);
+    try {
+        var pack = await CommPackService.getPackMap(pack);
+        
+        return res.status(200).json({ status: 200, data: pack, message: "Succesful in finding Commpack" });
+    }
+    catch (e) {
+        return res.status(400).json({ status: 400, message: e.message });
+    }
+}
+
 exports.createCommPack = async function (req, res, next) {
 
     // Req.Body contains the form submit values.

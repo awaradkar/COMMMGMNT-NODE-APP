@@ -14,7 +14,7 @@ exports.getCommodities = async function (req, res, next) {
     // Check the existence of the query parameters, If the exists doesn't exists assign a default value
     console.log("Inside packs controller getCommodities:" + req);
     var page = req.query.page ? req.query.page : 1
-    var limit = req.query.limit ? req.query.limit : 10;
+    var limit = req.query.limit ? req.query.limit : 100;
     
     try {
 
@@ -38,6 +38,7 @@ exports.getCommodity = async function (req, res, next) {
     var commodityId = req.params.id;
     try {
         var commodity = await CommodityService.getCommodity(commodityId);
+        console.log("............I got comm..............."+commodity);
         return res.status(200).json({ status: 200, data: commodity, message: "Succesful in finding commodity" });
     }
     catch (e) {

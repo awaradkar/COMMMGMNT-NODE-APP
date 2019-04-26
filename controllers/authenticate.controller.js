@@ -7,7 +7,7 @@ exports.authenticateUser = async function authenticate(req, res, next) {
             var user = await UserService.authenticate(req.body.username, req.body.password);
     
             // Return the User
-    
+            
             return res.status(200).json({ status: 200, data: user, message: "Login Successful" });
     
         } catch (e) {

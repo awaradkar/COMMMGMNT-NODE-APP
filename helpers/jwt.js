@@ -10,6 +10,7 @@ var signOptions = {
 };
 
 var authenticateUrl = async function (req, res, next) {
+    console.log(req.headers);
     const headerInfo = req.headers['authorization'];
     var user = null;
     // decode token

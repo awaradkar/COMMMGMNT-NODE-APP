@@ -12,7 +12,7 @@ exports.getOrganizations = async function (req, res, next) {
     // Check the existence of the query parameters, If the exists doesn't exists assign a default value
     console.log("Inside organization controller getOrganizations:" + req);
     var page = req.query.page ? req.query.page : 1
-    var limit = req.query.limit ? req.query.limit : 10;
+    var limit = req.query.limit ? req.query.limit : 100;
 
     try {
 

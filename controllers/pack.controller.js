@@ -12,11 +12,11 @@ exports.getPacks = async function (req, res, next) {
     // Check the existence of the query parameters, If the exists doesn't exists assign a default value
     console.log("Inside packs controller getPacks:" + req);
     var page = req.query.page ? req.query.page : 1
-    var limit = req.query.limit ? req.query.limit : 10;
+    var limit = req.query.limit ? req.query.limit : 100;
 
     try {
 
-        var packs = await PackService.getPacks({}, page, limit)
+        var packs = await PackService.getPacks(req.query, page, limit)
 
         // Return the Pack list with the appropriate HTTP Status Code and Message.
 
@@ -51,6 +51,7 @@ exports.createPack = async function (req, res, next) {
 
     try {
         // Calling the Service function with the new object from the Request Body
+        console.log(pack);
         var createdPack = await PackService.createPack(pack);
         return res.status(201).json({ status: 201, data: createdPack, message: "Succesfully Created Pack" })
     } catch (e) {
