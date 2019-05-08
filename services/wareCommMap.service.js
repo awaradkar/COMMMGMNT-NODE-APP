@@ -2,14 +2,14 @@
 
 var WareCommMap = require("../models/wareCommMap.model");
 var CommodityService = require("../services/commodity.services");
-var promise = require('promise');
+var Organization = require("../models/organization.model");
 // Saving the context of this module inside the _the variable
 _this = this
 
 //console.log("Inside WareCommMap service route:"+Commodity);
 // Async function to get the WareComm List
 
-exports.getWareCommMap = async function (query, page, limit) {
+exports.getWareCommMaps = async function (query, page, limit) {
 
     // Options setup for the mongoose paginate      
     console.log("Inside getWareCommMap:" + JSON.stringify(query));
@@ -21,16 +21,45 @@ exports.getWareCommMap = async function (query, page, limit) {
     // Try Catch the awaited promise to handle the error 
     var obj = null;
     try {
-        obj = await queryObject(query);
+        var orgIdList = [];
+        if (query._warehouseCode != null) {
+            var str = "(?i)" + query._warehouseCode;
+            var orgs = await Organization.find({ _orgName: { $regex: str } })
+
+           
+            for (const item of orgs) {
+                var orgid = item._orgId;
+                orgIdList.push(orgid)
+            }
+            orgIdList.push(query._warehouseCode);
+        }
+        var obj = queryObject(query, orgIdList);
         console.log(obj);
         var wareCommMaps = await WareCommMap.paginate(obj, options)
 
-        // Return the commPack list that was retured by the mongoose promise
+        var wareList = wareCommMaps.docs;
+        console.log(wareList.length);
+        var i=0;
+        for(i=0;i<wareList.length;i++){
+            var item = wareList[i];
+            var org = await Organization.findOne({_orgId:item._warehouseCode});
+            console.log("-------------------------------------------------------------------"+org);
+            if(org!=null){
+                item._warehouseName = org._orgName;
+                wareList[i]=item;
+            }
+        }
+        
+        console.log(wareList);
+        
+        wareCommMaps.docs = wareList;
+       
+        // Return the wareComm list that was retured by the mongoose promise
 
         return wareCommMaps;
 
     } catch (e) {
-
+        console.log(e);
         // return a Error message describing the reason 
 
         throw Error('Error while Paginating WareCommMaps')
@@ -46,8 +75,14 @@ exports.getWareCommRec = async function (id) {
         var wareCommMap = await WareCommMap.findOne({ _warehouseCode: id });
         console.log(wareCommMap);
 
+        
+
         if (wareCommMap == null) {
-            throw Error("wareCommMap not found")
+            wareCommMap = {};
+        }else{
+            var org = await Organization.findOne({_orgId:id});
+
+            wareCommMap._warehouseName = org._orgName;
         }
 
         return wareCommMap;
@@ -145,11 +180,10 @@ exports.getCommDetails = async function (commodities) {
     return commDetails;
 }
 
-function queryObject(query) {
-    var obj = null;
-    if (query._warehouseCode != null) {
-        obj = {};
-        obj._warehouseCode = query._warehouseCode;
-    };
+function queryObject(query,orgIdList) {
+    var obj = {};
+    if (orgIdList.length != 0) {
+        obj._warehouseCode = { $in: orgIdList };
+    }
     return obj;
 }

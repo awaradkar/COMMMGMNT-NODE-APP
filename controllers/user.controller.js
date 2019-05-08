@@ -115,3 +115,13 @@ exports.removeUser = async function (req, res, next) {
     }
 
 }
+
+exports.changePassword = async function (req, res, next) {
+
+    try {
+        var user = await UserService.changePassword(req.body);
+        return res.status(200).json({ status: 200, data: user, message: "Succesfully changes the Password" })
+    } catch (e) {
+        return res.status(400).json({ status: 400, message: e.message })
+    }
+}

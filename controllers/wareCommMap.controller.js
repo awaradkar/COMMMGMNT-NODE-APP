@@ -10,7 +10,7 @@ _this = this
 exports.getWareCommMaps = async function (req, res, next) {
 
     // Check the existence of the query parameters, If the exists doesn't exists assign a default value
-    console.log("Inside packs controller getCommPacks:" + req);
+    console.log("Inside warecommmap controller getCommPacks:" + req);
     var page = req.query.page ? req.query.page : 1
     var limit = req.query.limit ? req.query.limit : 10;
 
@@ -34,10 +34,14 @@ exports.getWareCommMaps = async function (req, res, next) {
 exports.getWareCommMap = async function (req, res, next) {
 
     var ware = req.params.id;
+    var commDtls = [];
     try {
-        var wareCommMap = await WareCommService.getWareCommMap(ware);
-        console.log("......................." + wareCommMap);
-        var commDtls = await WareCommService.getCommDetails(wareCommMap._commId);
+        var wareCommMap = await WareCommService.getWareCommRec(ware);
+        if(wareCommMap != {}){
+            console.log("......................." + wareCommMap);
+            var commDtls = await WareCommService.getCommDetails(wareCommMap._commId);
+        }
+
         var wareCommMapDtls = new Object({ wareComm: wareCommMap, commodityDtls: commDtls });
         return res.status(200).json({ status: 200, data: wareCommMapDtls, message: "Succesful in finding WareCommMap" });
     }

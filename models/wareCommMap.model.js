@@ -4,6 +4,7 @@ var mongoosePaginate = require('mongoose-paginate')
 // define model =================
 var wareCommMapSchema = new mongoose.Schema({
   _warehouseCode: String,
+  _warehouseName:String,
   _commId:Array,
   _createdDate: Date,
   _modifiedDate: Date,
